@@ -16,36 +16,22 @@
 @import "styleguide/src/layout/navbar";
 @import "styleguide/src/layout/page-header";
 
-@import "blocks/Articles";
-@import "blocks/CarouselHeader";
-@import "blocks/CarouselHeader_full_width_classic";
-@import "blocks/Columns";
-@import "blocks/ColumnsEditor";
-@import "blocks/Counter";
-@import "blocks/Covers";
-@import "blocks/CoversCampaignThumbnail";
-@import "blocks/CoversContentFourColumn";
-@import "blocks/File";
-@import "blocks/Gallery_carousel";
-@import "blocks/Gallery_content_three_column";
-@import "blocks/Gallery_grid";
-@import "blocks/Happypoint";
-@import "blocks/Socialmedia";
-@import "blocks/Socialshare";
-@import "blocks/SplitTwoColumns";
-@import "blocks/Submenu";
-@import "blocks/Timeline";
+@import "blocks/TableEditor";
 
-@import "blocks/core-overrides/Image";
+@import "blocks";
 
 @import "blocks/ArticlesEditor";
 @import "blocks/CarouselHeaderEditor";
 @import "blocks/CarouselHeaderEditorOverrides";
+@import "blocks/ColumnsEditor";
+@import "blocks/GalleryEditor";
 @import "blocks/SplitTwoColumnsEditor";
 @import "blocks/SubmenuEditor";
 
 @import "components/LayoutSelector";
 @import "components/EmptyMessage";
 @import "components/Preview";
+@import "components/CharacterCounter";
+@import "campaigns/base/fonts";
 
 @import "editorOverrides";

@@ -23,7 +23,8 @@ $(document).ready(function () {
 
       for (let j = 0; j < $headings.length; j++) {
         let $heading = $($headings[j]);
-        if ($heading.text().replace(/\u2010|\u2011|\u2013/, '') === menu.text.replace('-', '')) {
+        const headingText = $heading.text().replace(/\u2010|\u2011|\u2013/, '').trim();
+        if (headingText === menu.text.replace('-', '')) {
           $heading.prepend('<a id="' + menu.id + '" data-hash-target="' + menu.hash + '"></a>');
         }
       }
@@ -50,6 +51,31 @@ $(document).ready(function () {
 
     return false;
   });
+
+  const $backtop = $( '.back-top' );
+  const $submenu = $( '.submenu-block' );
+
+  if ( $submenu.length > 0 ) {
+    $( window ).scroll( function () {
+      if ( $( this ).scrollTop() > 400 ) {
+        $backtop.fadeIn();
+        if ( $( '.cookie-block:visible' ).length > 0 ) {
+          $backtop.css( 'bottom', '120px' );
+        } else {
+          $backtop.css( 'bottom', '50px' );
+        }
+      } else {
+        $backtop.fadeOut();
+      }
+    } );
+
+    $backtop.click( function () {
+      $( 'body, html' ).animate( {
+        scrollTop: 0
+      }, 800 );
+      return false;
+    } );
+  }
 
   /**
    * Append html links for a submenu entry children.

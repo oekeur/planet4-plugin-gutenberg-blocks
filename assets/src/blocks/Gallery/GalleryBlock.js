@@ -75,7 +75,7 @@ export class GalleryBlock {
             type: 'string',
           },
           image_data: {
-            type: 'object',
+            type: 'array',
             default: []
           },
         },
@@ -117,7 +117,7 @@ export class GalleryBlock {
             for (const img_id in image_urls_array) {
 
               let x,y;
-              if ($.isEmptyObject(focal_points_json)) {
+              if ($.isEmptyObject(focal_points_json) || !focal_points_json[img_id]) {
                 [x,y] = [50,50];
               } else {
                 [x,y] = focal_points_json[img_id].replace(/\%/g, '').split(' ');
@@ -142,6 +142,10 @@ export class GalleryBlock {
 
           function onDescriptionChange( value ) {
             setAttributes({gallery_block_description: value });
+          }
+
+          function onUploadError({message}) {
+            console.log(message);
           }
 
           function onSelectImage(value) {
@@ -184,35 +188,15 @@ export class GalleryBlock {
             setAttributes({image_data: updated_image_data});
           }
 
-          function onRemoveImages() {
-            setAttributes({multiple_image: ''});
-            setAttributes({gallery_block_focus_points: ''});
-            setAttributes({image_data: []});
-          }
-
-          function onDeleteImage(img_id) {
-            let image_ids  = attributes.multiple_image;
-            let image_data = attributes.image_data;
-            if (image_ids)
-              image_ids = image_ids.split(',');
-
-            image_ids  = image_ids.filter(function(value, index, arr){ return parseInt(value) !== parseInt(img_id); });
-            image_data = image_data.filter(function(value, index, arr){ return parseInt(value.id) !== parseInt(img_id); });
-
-            setAttributes({multiple_image: image_ids.join(',')});
-            setAttributes({image_data: image_data});
-          }
-
           return <Gallery
             {...attributes}
             isSelected={isSelected}
             onSelectedLayoutChange={onSelectedLayoutChange}
             onSelectImage={onSelectImage}
+            onUploadError={onUploadError}
             onTitleChange={onTitleChange}
             onDescriptionChange={onDescriptionChange}
             onFocalPointChange={onFocalPointChange}
-            onRemoveImages={onRemoveImages}
-            onDeleteImage={onDeleteImage}
           />
         }),
         save() {

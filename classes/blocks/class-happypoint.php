@@ -33,7 +33,7 @@ class Happypoint extends Base_Block {
 	 */
 	public function add_block_shortcode( $attributes, $content ) {
 
-		$attributes['id'] = $attributes['background'];
+		$attributes['id'] = $attributes['background'] ?? '';
 
 		$attributes = shortcode_atts(
 			[
@@ -87,7 +87,6 @@ class Happypoint extends Base_Block {
 				],
 			]
 		);
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_public_assets' ] );
 	}
 
 	/**
@@ -139,22 +138,5 @@ class Happypoint extends Base_Block {
 		}
 
 		return $data;
-	}
-
-	/**
-	 * Load assets for the frontend.
-	 */
-	public function enqueue_public_assets() {
-		wp_register_script(
-			'p4gbks-blocks-wide',
-			plugins_url( P4GBKS_PLUGIN_DIRNAME ) . '/public/js/blocks_wide.js',
-			[
-				'jquery',
-				'main',
-			],
-			'1.0',
-			true
-		);
-		wp_enqueue_script( 'p4gbks-blocks-wide' );
 	}
 }

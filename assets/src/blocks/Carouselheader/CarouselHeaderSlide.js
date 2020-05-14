@@ -1,16 +1,19 @@
-import {React, Component, Fragment} from 'react';
+import {Component, Fragment} from '@wordpress/element';
 import {
   Button,
   Dashicon,
   SelectControl,
-  TextareaControl,
-  TextControl,
+  TextareaControl as BaseTextareaControl,
+  TextControl as BaseTextControl,
   ToggleControl
 } from '@wordpress/components';
 import {URLInput} from '@wordpress/block-editor'
 import {CarouselHeaderImage} from "./CarouselHeaderImage";
+import withCharacterCounter from '../../components/withCharacterCounter/withCharacterCounter';
 
 const {apiFetch} = wp;
+const TextControl = withCharacterCounter(BaseTextControl);
+const TextareaControl = withCharacterCounter(BaseTextareaControl);
 
 export class CarouselHeaderSlide extends Component {
   constructor(props) {
@@ -100,25 +103,29 @@ export class CarouselHeaderSlide extends Component {
                 onChange={(image) => this.onImageChange(image)}
                 onFocalPointsChange={(f) => this.onFocalPointsChange(f)}
               />
-              <div className="ch-url-input-control__wrapper">
-
-                <TextControl
-                  className="carouselh-header-input"
-                  label={__('Header', 'p4ge')}
-                  placeholder={__('Enter header', 'p4ge')}
-                  value={this.props.header}
-                  onChange={(e) => this.props.onHeaderChange(this.props.index, e)}
-                />
-                <SelectControl
-                  label={__('Header text size', 'p4ge')}
-                  value={this.props.header_size}
-                  options={[
-                    {label: 'h1', value: 'h1'},
-                    {label: 'h2', value: 'h2'},
-                    {label: 'h3', value: 'h3'},
-                  ]}
-                  onChange={(e) => this.props.onHeaderSizeChange(this.props.index, e)}
-                />
+              <div className="row">
+                <div className="col">
+                  <TextControl
+                    className="carouselh-header-input"
+                    label={__('Header', 'p4ge')}
+                    placeholder={__('Enter header', 'p4ge')}
+                    value={this.props.header}
+                    onChange={(e) => this.props.onHeaderChange(this.props.index, e)}
+                    characterLimit={40}
+                  />
+                </div>
+                <div className="col">
+                  <SelectControl
+                    label={__('Header text size', 'p4ge')}
+                    value={this.props.header_size}
+                    options={[
+                      {label: 'h1', value: 'h1'},
+                      {label: 'h2', value: 'h2'},
+                      {label: 'h3', value: 'h3'},
+                    ]}
+                    onChange={(e) => this.props.onHeaderSizeChange(this.props.index, e)}
+                  />
+                </div>
               </div>
               {this.props.hasSubheader &&
               <TextControl
@@ -126,6 +133,7 @@ export class CarouselHeaderSlide extends Component {
                 placeholder={__('Enter subheader', 'p4ge')}
                 value={this.props.subheader}
                 onChange={(e) => this.props.onSubheaderChange(this.props.index, e)}
+                characterLimit={80}
               />
               }
               <TextareaControl
@@ -133,36 +141,37 @@ export class CarouselHeaderSlide extends Component {
                 placeholder={__('Enter description of image', 'p4ge')}
                 value={this.props.description}
                 onChange={(e) => this.props.onDescriptionChange(this.props.index, e)}
+                characterLimit={200}
               />
-              <div className="ch-url-input-control__wrapper">
-
-                <TextControl
-                  label={__('Link text and url', 'p4ge')}
-                  placeholder={__('Enter link text for image', 'p4ge')}
-                  value={this.props.link_text}
-                  onChange={(e) => this.props.onLinkTextChange(this.props.index, e)}
-                  className='carousel-header-link-text-input'
-                />
-                <form
-                  className="ch-url-input-control"
-                  onSubmit={event => event.preventDefault()}>
-                  <div className="ch-url-input-control__wrapper">
-                    <URLInput
-                      label={__('Url for link', 'p4ge')}
-                      className="ch-url-input-control__input"
-                      value={this.props.link_url}
-                      onChange={(e) => this.props.onLinkUrlChange(this.props.index, e)}
-                      autoFocus={false}
+              <div className="row">
+                <div className="col">
+                  <TextControl
+                    label={__('Link text and url', 'p4ge')}
+                    placeholder={__('Enter link text for image', 'p4ge')}
+                    value={this.props.link_text}
+                    onChange={(e) => this.props.onLinkTextChange(this.props.index, e)}
+                  />
+                </div>
+                <div className="col">
+                  <URLInput
+                    label={__('Url for link', 'p4ge')}
+                    className="ch-url-input-control__input"
+                    value={this.props.link_url}
+                    onChange={(e) => this.props.onLinkUrlChange(this.props.index, e)}
+                    autoFocus={false}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <div className="InlineToggleControl">
+                    <ToggleControl
+                      help={__('Open link in a new tab', 'p4ge')}
+                      checked={this.props.link_url_new_tab}
+                      onChange={(e) => this.props.onLinkNewTabChange(this.props.index, e)}
                     />
-                    <div className="ch-url-input-control__new-tab">
-                      <ToggleControl
-                        help={__('New Tab', 'p4ge')}
-                        checked={this.props.link_url_new_tab}
-                        onChange={(e) => this.props.onLinkNewTabChange(this.props.index, e)}
-                      />
-                    </div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </Fragment>

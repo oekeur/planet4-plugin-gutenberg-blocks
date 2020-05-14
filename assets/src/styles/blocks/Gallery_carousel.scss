@@ -3,7 +3,7 @@
 
   h1 {
     font-size: $font-size-lg;
-    color: $black;
+    color: $dark-shade-black;
     margin-bottom: 22px;
     margin-left: 0;
 
@@ -36,7 +36,7 @@
     img {
       height: auto;
       width: 100%;
-      object-fit: none;
+      object-fit: cover;
 
       @include medium-and-up {
         height: 400px;
@@ -108,7 +108,7 @@
     }
   }
 
-  .carousel-indicators {
+  ol.carousel-indicators {
     right: 25%;
     bottom: 80px;
     left: auto;
@@ -145,6 +145,7 @@
     }
 
     li {
+      padding-top: 0;
       width: 8px;
       height: 8px;
       margin: 0 8px;

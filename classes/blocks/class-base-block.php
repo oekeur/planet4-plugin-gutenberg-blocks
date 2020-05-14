@@ -14,6 +14,11 @@ namespace P4GBKS\Blocks;
  */
 abstract class Base_Block {
 
+	protected const CSS_VARIABLES_ATTRIBUTE = [
+		'type'    => 'object',
+		'default' => [],
+	];
+
 	/**
 	 * Get all the data that will be needed to render the block correctly.
 	 *
@@ -56,10 +61,10 @@ abstract class Base_Block {
 		if ( current_user_can( 'edit_posts' ) ) {
 			\Timber::render(
 				P4GBKS_PLUGIN_DIR . 'templates/block-error-message.twig',
-				array(
+				[
 					'category' => __( 'Error', 'planet4-blocks' ),
 					'message'  => $message,
-				)
+				]
 			);
 		}
 	}

@@ -1,0 +1,89 @@
+.table-wrapper {
+  overflow: auto;
+
+  max-height: 320px;
+  margin: 1.5rem 0;
+
+  @include medium-and-up {
+    max-height: 520px;
+    margin: 2rem 0;
+  }
+
+  @include large-and-up {
+    max-height: 575px;
+  }
+}
+
+table.spreadsheet-table {
+  min-width: 100%;
+
+  margin-bottom: 0;
+
+  @include mobile-only {
+    overflow: visible;
+  }
+
+  th {
+    background: var(--spreadsheet-header-background, #45494c);
+    color: #ffffff;
+    border-bottom: 1px solid var(--spreadsheet-header-background, #45494c);
+    cursor: pointer;
+    font-size: $font-size-sm;
+    position: sticky;
+    top: 0;
+  }
+
+  tr {
+    td {
+      padding: 5px 20px;
+
+      background: var(--spreadsheet-even-row-background, #f5f7f8);
+      color: #020202;
+      font-size: $font-size-xs;
+
+      @include x-large-and-up {
+        font-size: $font-size-xs;
+      }
+    }
+
+    &:nth-child(odd) {
+      td {
+        background: var(--spreadsheet-odd-row-background, #ececec);
+        color: #020202;
+      }
+    }
+  }
+}
+
+.spreadsheet-search {
+  width: 350px;
+  max-width: 100%;
+  height: 2rem;
+  margin: 10px 0;
+  padding: 0 8px;
+  border-color: var(--spreadsheet-header-background, #45494c);
+  border: 1px solid;
+}
+
+.spreadsheet-sorted-by {
+  &:after {
+    content: "\25BC";
+  }
+
+  &[data-sort-dir="desc"]:after {
+    content: "\25B2";
+  }
+}
+
+.spreadsheet-empty-message {
+  display: none;
+  margin: 0 0 16px 0;
+  font-size: 1.12rem;
+  line-height: 1.375rem;
+
+  @include medium-and-up {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    margin: 0 0 24px 0;
+  }
+}

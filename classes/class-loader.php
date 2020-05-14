@@ -105,10 +105,12 @@ final class Loader {
 			new Blocks\Media(),
 			new Blocks\SocialMedia(),
 			new Blocks\SplitTwoColumns(),
+			new Blocks\Spreadsheet(),
 			new Blocks\SubMenu(),
+			new Blocks\SubPages(),
 			new Blocks\TakeActionBoxout(),
 			new Blocks\Timeline(),
-			new Blocks\Socialshare(),
+			new Blocks\SocialMediaCards(),
 		];
 	}
 
@@ -312,7 +314,7 @@ final class Loader {
 			'p4gbks_admin_style',
 			P4GBKS_PLUGIN_URL . 'assets/build/editorStyle.min.css', // - Bundled CSS for the blocks
 			[],
-			'0.3'
+			'0.4'
 		);
 
 		wp_enqueue_script(
@@ -334,8 +336,9 @@ final class Loader {
 				'wp-data',        // - WP data helpers
 				'wp-i18n',        // - Exports the __() function
 				'wp-editor',
+				'wp-edit-post',
 			],
-			'0.1.11',
+			'0.1.15',
 			true
 		);
 
@@ -383,9 +386,9 @@ final class Loader {
 
 			$post = get_post();
 
-			$campaign_theme = $post->custom['_campaign_page_template'];
+			$campaign_theme = $post->theme ?? $post->custom['_campaign_page_template'] ?? null;
 
-			if ( is_string( $campaign_theme ) ) {
+			if ( is_string( $campaign_theme ) && ! empty( $campaign_theme ) ) {
 
 				$css_theme_creation = filectime( P4GBKS_PLUGIN_DIR . "/assets/build/theme_$campaign_theme.min.css" );
 
@@ -427,28 +430,27 @@ final class Loader {
 	}
 
 	/**
-	 * Registers a new category for our blocks
+	 * Registers new categories for our blocks.
 	 *
-	 * @param array $categories Blocks categories.
+	 * @param array $core_categories Default blocks categories.
 	 *
 	 * @return array
 	 */
-	public function register_block_category( $categories ) {
-		// get_block_categories method at wp-admin/includes/post.php has some hardcoded (!!!) default categories
-		// index 0 holds common blocks menu entry data, so it seems safe to do the bellow array operations.
-		$common = [
-			$categories[0],
+	public function register_block_category( $core_categories ) {
+
+		$our_categories = [
+			[
+				'slug'  => 'planet4-blocks',
+				'title' => __( 'Planet 4 Blocks', 'planet4-blocks' ),
+			],
+
+			[
+				'slug'  => 'planet4-blocks-beta',
+				'title' => __( 'Planet 4 Blocks - BETA', 'planet4-blocks' ),
+			],
 		];
 
-		$categories[0] = [
-			'slug'  => 'planet4-blocks',
-			'title' => __( 'Planet 4 Blocks', 'planet4-blocks' ),
-		];
-
-		return array_merge(
-			$common,
-			$categories
-		);
+		return array_merge( $our_categories, $core_categories );
 	}
 
 
@@ -569,6 +571,10 @@ final class Loader {
 
 		// Disable custom color option.
 		add_theme_support( 'disable-custom-colors' );
+
+		// Disable gradient presets & custom gradients.
+		add_theme_support( 'editor-gradient-presets', [] );
+		add_theme_support( 'disable-custom-gradients' );
 	}
 
 	/**

@@ -6,7 +6,7 @@
 <section class="block block-header block-wide carousel-header_{{ fields.block_style }}">
 	<div id="carousel-wrapper-header"
 		data-block-style="{{ fields.block_style }}"
-		data-carousel-autoplay="{{ fields.carousel_autoplay }}">
+		data-carousel-autoplay="{{ fields.carousel_autoplay == 1 ? 'true' : '' }}">
 
 		{% if fields.total_images > 1 %}
 			<ol class="carousel-indicators"></ol>
@@ -25,10 +25,19 @@
 						<div class="carousel-item-mask">
 							<div class="background-holder">
 								{% if slide.image %}
-									<img src="{{ slide.image }}"
-										data-background-position="{{ slide.focus_image }}"
+									<img
+										{% if ( loop.first ) %}
+										src="{{ slide.image }}"
 										srcset="{{ slide.image_srcset }}"
 										sizes="{{ slide.image_sizes }}"
+										{% else %}
+										data-src="{{ slide.image }}"
+										data-srcset="{{ slide.image_srcset }}"
+										data-sizes="{{ slide.image_sizes }}"
+										class="preload"
+										{% endif %}
+										data-background-position="{{ slide.focus_image }}"
+
 										alt="{{ slide.image_alt  }}">
 
 									<div class="carousel-caption">

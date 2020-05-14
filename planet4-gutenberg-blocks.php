@@ -3,7 +3,7 @@
  * Plugin Name: Planet4 - Gutenberg Blocks
  * Description: Contains the Gutenberg blocks that are used by Planet4 project.
  * Plugin URI: http://github.com/greenpeace/planet4-plugin-gutenberg-blocks
- * Version: 0.5
+ * Version: 0.27.1
  * Php Version: 7.0
  *
  * Author: Greenpeace International
@@ -99,6 +99,7 @@ const POST_BLOCK_TYPES = [
 	'planet4-blocks/counter',
 	'planet4-blocks/gallery',
 	'planet4-blocks/take-action-boxout',
+	'planet4-blocks/spreadsheet',
 	'planet4-blocks/timeline',
 ];
 
@@ -115,6 +116,7 @@ const PAGE_BLOCK_TYPES = [
 	'planet4-blocks/media-video',
 	'planet4-blocks/social-media',
 	'planet4-blocks/split-two-columns',
+	'planet4-blocks/spreadsheet',
 	'planet4-blocks/submenu',
 	'planet4-blocks/take-action-boxout',
 	'planet4-blocks/timeline',
@@ -132,9 +134,9 @@ const CAMPAIGN_BLOCK_TYPES = [
 	'planet4-blocks/happypoint',
 	'planet4-blocks/media',
 	'planet4-blocks/social-media',
-	'planet4-blocks/socialshare',
-	'planet4-blocks/split-two-columns',
-	'planet4-blocks/submenu',
+	'planet4-blocks/social-media-cards',
+	'planet4-blocks/spreadsheet',
+	'planet4-blocks/sub-pages',
 	'planet4-blocks/timeline',
 ];
 
@@ -144,38 +146,39 @@ const CAMPAIGN_BLOCK_TYPES = [
  * @param array  $allowed_block_types array of allowed block types.
  * @param object $post current post.
  *
- * @return true if all blocks allowed, false if none or an array of allowed blocks
+ * @return array of all blocks allowed.
  */
 function set_allowed_block_types( $allowed_block_types, $post ) {
+	// phpcs:disable Squiz.PHP.CommentedOutCode.Found -- allow these comments
 	$wordpress_blocks = [
 		'core/block',
 		'core/paragraph',
 		'core/heading',
 		'core/image',
-		// 'core/gallery' - functionality replaced by P4 galleries.
+		// 'core/gallery', // functionality replaced by P4 galleries.
 		'core/list',
 		'core/quote', // TODO: Styling or removal.
-		// 'core/audio' // removed, not needed.
-		// 'core/cover', - removed, not needed.
+		// 'core/audio', // removed, not needed.
+		// 'core/cover', // removed, not needed.
 		'core/file',
-		// 'core/video' - TODO: Decision. Ideally only allow embedded video.
-		// 'core/preformatted' // removed, not needed.
-		// 'core/code' - functionality not needed and not styled.
+		// 'core/video', // TODO: Decision. Ideally only allow embedded video.
+		// 'core/preformatted', // removed, not needed.
+		// 'core/code', // functionality not needed and not styled.
 		'core/html',
 		'core/table', // TODO: Styling.
-		// 'core/pullquote' - removed, normal quote element is available.
-		// 'core/verse' - removed, not needed, not styled.
-		'core/button', // TODO: Styling.
+		// 'core/pullquote', // removed, normal quote element is available.
+		// 'core/verse', // removed, not needed, not styled.
+		'core/buttons', // TODO: Styling.
 		// 'core/media-text' // removed, not needed.
-		// 'core/more' - removed, not needed.
-		// 'core/nextpage' - removed, not needed.
+		// 'core/more', // removed, not needed.
+		// 'core/nextpage', // removed, not needed.
 		'core/separator', // TODO: Styling.
 		'core/spacer',
 		'core/shortcode',
-		// 'core/archives' - removed, not needed.
-		// 'core/categories' - removed, not needed.
-		// 'core/latest-comments' - removed, not needed.
-		// 'core/latest-posts' // removed, functionality replaced by P4 article list.
+		// 'core/archives', // removed, not needed.
+		// 'core/categories', // removed, not needed.
+		// 'core/latest-comments', // removed, not needed.
+		// 'core/latest-posts', // removed, functionality replaced by P4 article list.
 		'core/embed',
 		'core-embed/twitter',
 		'core-embed/youtube',
@@ -186,12 +189,12 @@ function set_allowed_block_types( $allowed_block_types, $post ) {
 		'core-embed/spotify',
 		'core-embed/flickr',
 		'core-embed/vimeo',
-		// 'core-embed/animoto', - removed, not needed.
-		// 'core-embed/cloudup', - removed, not needed.
-		// 'core-embed/collegehumor', - removed, not needed.
+		// 'core-embed/animoto', // removed, not needed.
+		// 'core-embed/cloudup', // removed, not needed.
+		// 'core-embed/collegehumor', // removed, not needed.
 		'core-embed/dailymotion',
 		'core-embed/funnyordie',
-		// 'core-embed/hulu', - removed, not needed.
+		// 'core-embed/hulu', // removed, not needed.
 		'core-embed/imgur',
 		'core-embed/issuu',
 		'core-embed/kickstarter',
@@ -200,25 +203,32 @@ function set_allowed_block_types( $allowed_block_types, $post ) {
 		'core-embed/photobucket',
 		'core-embed/polldaddy',
 		'core-embed/reddit',
-		// 'core-embed/reverbnation', - removed, not needed.
-		// 'core-embed/screencast', - removed, not needed.
+		// 'core-embed/reverbnation', // removed, not needed.
+		// 'core-embed/screencast', // removed, not needed.
 		'core-embed/scribd',
 		'core-embed/slideshare',
-		// 'core-embed/smugmug', removed, not needed.
+		// 'core-embed/smugmug', // removed, not needed.
 		'core-embed/speaker',
 		'core-embed/ted',
-		// 'core-embed/tumblr', removed, not needed.
+		// 'core-embed/tumblr', // removed, not needed.
 		'core-embed/videopress',
-		// 'core-embed/wordpress-tv', removed, not needed.
+		// 'core-embed/wordpress-tv', // removed, not needed.
 	];
+	// phpcs:enable
 
-	$allowed_p4_block_types = [
+	$all_allowed_p4_block_types = [
 		'post'     => POST_BLOCK_TYPES,
 		'page'     => PAGE_BLOCK_TYPES,
 		'campaign' => CAMPAIGN_BLOCK_TYPES,
 	];
 
-	$allowed_block_types = array_merge( $wordpress_blocks, $allowed_p4_block_types[ $post->post_type ] );
+	$allowed_p4_block_types = $all_allowed_p4_block_types[ $post->post_type ];
+
+	if ( empty( $allowed_p4_block_types ) ) {
+		return $wordpress_blocks;
+	}
+
+	$allowed_block_types = array_merge( $wordpress_blocks, $allowed_p4_block_types );
 
 	return $allowed_block_types;
 }
@@ -243,7 +253,7 @@ function empty_string_to_false_in_link_new_tab_in_columns_blocks( $block ): arra
 	// Yes, that's right, WordPress doesn't follow its own rules here so we have a camel among snakes.
 	if ( 'planet4-blocks/columns' === $block['blockName'] ?? null ) {
 		foreach ( $block['attrs']['columns'] ?? [] as $key => $column ) {
-			if ( true !== $column['link_new_tab'] ) {
+			if ( isset( $column['link_new_tab'] ) && true !== $column['link_new_tab'] ) {
 				$block['attrs']['columns'][ $key ]['link_new_tab'] = false;
 			}
 		}
@@ -267,6 +277,10 @@ P4GBKS\Loader::get_instance(
 		\P4GBKS\Controllers\Menu\Settings_Controller::class,
 		\P4GBKS\Controllers\Menu\Blocks_Usage_Controller::class,
 		\P4GBKS\Controllers\Menu\Reusable_Blocks_Controller::class,
+		\P4GBKS\Controllers\Menu\Archive_Import::class,
+		\P4GBKS\Controllers\Menu\Postmeta_Check_Controller::class,
 	],
 	\P4GBKS\Views\View::class
 );
+
+\P4GBKS\Rest\Rest_Api::add_endpoints();

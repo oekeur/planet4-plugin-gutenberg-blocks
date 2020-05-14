@@ -40,7 +40,14 @@ if ( ! class_exists( 'Controller' ) ) {
 		 * Hooks the method that Creates the menu item for the current controller.
 		 */
 		public function load() {
-			add_action( 'admin_menu', array( $this, 'create_admin_menu' ) );
+			add_action( 'admin_menu', [ $this, 'create_admin_menu' ] );
 		}
+
+		/**
+		 * Add the admin menu item.
+		 *
+		 * @return void
+		 */
+		abstract public function create_admin_menu();
 	}
 }

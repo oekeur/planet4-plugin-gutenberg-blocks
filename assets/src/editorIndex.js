@@ -8,35 +8,45 @@ import { GalleryBlock } from './blocks/Gallery/GalleryBlock';
 import { HappypointBlock } from './blocks/Happypoint/HappypointBlock';
 import { MediaBlock } from './blocks/Media/MediaBlock';
 import { SocialmediaBlock } from './blocks/Socialmedia/SocialmediaBlock';
-import { SocialshareBlock } from './blocks/Socialshare/SocialshareBlock';
+import { SocialMediaCardsBlock } from './blocks/SocialMediaCards/SocialMediaCardsBlock';
 import { SplittwocolumnsBlock } from './blocks/Splittwocolumns/SplittwocolumnsBlock';
 import { SubmenuBlock } from './blocks/Submenu/SubmenuBlock';
 import { TakeactionboxoutBlock } from './blocks/Takeactionboxout/TakeactionboxoutBlock';
 import { TimelineBlock } from './blocks/Timeline/TimelineBlock';
-
-//Filters
 import { addBlockFilters } from './BlockFilters';
 import { setupImageBlockExtension } from './ImageBlockExtension';
-import { replaceTaxonomyTermSelectors } from "./replaceTaxonomyTermSelectors"
+import { replaceTaxonomyTermSelectors } from "./replaceTaxonomyTermSelectors";
 import { addSubAndSuperscript } from './RichTextEnhancements';
+import { SpreadsheetBlock } from "./blocks/Spreadsheet/SpreadsheetBlock"
+import { addButtonLinkPasteWarning } from './addButtonLinkPasteWarning';
+import { setupCustomSidebar } from "./setupCustomSidebar";
+import { setUpCssVariables } from './connectCssVariables';
+import { SubPagesBlock } from './blocks/SubPages/SubPagesBlock';
+import { blockEditorValidation } from './BlockEditorValidation';
 
-const articlesBlock = new ArticlesBlock();
-const carouselHeaderBlock = new CarouselHeaderBlock();
-const columnsBlock = new ColumnsBlock();
-const cookiesBlock = new CookiesBlock();
-const counterBlock = new CounterBlock();
-const coversBlock = new CoversBlock();
-const galleryBlock = new GalleryBlock();
-const happypointBlock = new HappypointBlock();
-const mediaBlock = new MediaBlock();
-const socialmediaBlock = new SocialmediaBlock();
-const socailshareBlock = new SocialshareBlock();
-const splittwocolumnsBlock = new SplittwocolumnsBlock();
-const submenuBlock = new SubmenuBlock();
-const takeActionBoxoutBlock = new TakeactionboxoutBlock();
-const timelineBlock = new TimelineBlock();
+new ArticlesBlock();
+new CarouselHeaderBlock();
+new ColumnsBlock();
+new CookiesBlock();
+new CounterBlock();
+new CoversBlock();
+new GalleryBlock();
+new HappypointBlock();
+new MediaBlock();
+new SocialmediaBlock();
+new SocialMediaCardsBlock();
+new SplittwocolumnsBlock();
+new SpreadsheetBlock()
+new SubmenuBlock();
+new SubPagesBlock();
+new TakeactionboxoutBlock();
+new TimelineBlock();
 
 addBlockFilters();
-addSubAndSuperscript(window.wp);
+addSubAndSuperscript( window.wp );
 setupImageBlockExtension();
-replaceTaxonomyTermSelectors()
+addButtonLinkPasteWarning();
+replaceTaxonomyTermSelectors();
+setupCustomSidebar();
+setUpCssVariables();
+blockEditorValidation();

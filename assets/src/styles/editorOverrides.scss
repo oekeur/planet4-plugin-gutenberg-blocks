@@ -1,5 +1,5 @@
 .editor-post-title__block textarea.editor-post-title__input {
-  font-family: $roboto;
+  font-family: var(--header-primary-font, $roboto);
   font-size: $font-size-xl;
   line-height: 1.225;
   margin-bottom: 30px;
@@ -13,12 +13,8 @@
   }
 }
 
-.edit-post-visual-editor {
-  @include table;
-
-  .wp-block {
-    max-width: 90%;
-  }
+.edit-post-visual-editor .wp-block {
+  max-width: 90%;
 }
 
 .wp-block-image {
@@ -58,10 +54,18 @@
   }
 }
 
-
-
 .components-panel__body label {
   font-size: 13px;
+}
+
+.components-radio-control__option {
+  input.components-radio-control__input {
+    margin-right: 5px;
+  }
+
+  label {
+    margin-bottom: 0;
+  }
 }
 
 .wp-block-button .wp-block-button__link[role="textbox"] {
@@ -129,4 +133,76 @@
   border-radius: 0;
   border: none;
   color: $dark-shade-black !important;
+}
+
+// The color picker cannot be configured to show a clear button without giving the ability to enter any color with its
+// hex code.
+// So as a workaround undo the hiding of the wrapper and hide only the text input.
+.palette-only {
+  span.wp-picker-input-wrap {
+    display: inline-block !important;
+  }
+
+  .wp-picker-input-wrap label {
+    display: none !important;
+  }
+}
+// By default the selected color is barely visible because of the white circle with check mark covering it.
+.components-color-palette__item.is-active {
+  box-shadow: inset 0 0 0 6px;
+}
+
+.edit-post-sidebar {
+
+  // By default all but the first .component-base-control have margin-bottom, causing weird spacing.
+  .components-base-control {
+    margin-bottom: 0;
+
+    .components-base-control__label {
+      font-weight: bold;
+    }
+  }
+}
+
+.edit-post-visual-editor .editor-block-list__block-edit,
+.edit-post-visual-editor {
+  font-family: var(--body-font, 'Noto Serif');
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--header-primary-font, $roboto);
+  }
+}
+
+.edit-post-sidebar-header > .components-icon-button.is-toggled {
+  display: none !important;
+}
+
+#icl_div_config {
+  display: none !important;
+}
+
+input.describe[type=text][data-setting=caption] {
+  pointer-events: none;
+}
+
+.InlineToggleControl {
+  .components-toggle-control {
+    display: flex;
+
+    .components-base-control__field {
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.p4-plugin-pre-publish-panel-error {
+  background-color: #f9e2e2 !important;
+}
+
+.cmb2_required_field_error {
+  border-color: $red !important;
 }
